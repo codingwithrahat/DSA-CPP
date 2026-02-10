@@ -84,7 +84,7 @@ public:
             return;
         }
 
-        if(head == tail){                     //if there exit only one node
+        if(head == tail){                    
             delete head;
             head = tail = NULL;
             return;
@@ -99,9 +99,43 @@ public:
         }
 
         temp->next = NULL;
-        delete tail;               //it only delete the node that point by tail, it can't delete var tail
+        delete tail;               
         tail = temp;
         
+    }
+
+    void insert(int val, int pos){
+        if(pos < 0){
+            cout<<"Invalid Index"<<endl;
+            return;
+        }
+
+        if(pos == 0){
+            push_front(val);
+            return;
+        }
+
+        Node* temp = head;
+
+        for(int i = 0; i<pos - 1; i++){                  //0 based indexing 
+            
+            if(temp == NULL){
+                cout<<"Out of range"<<endl;
+                return;
+            }
+
+            temp = temp->next;
+        }
+
+        Node* newNode = new Node(val);
+
+        newNode->next = temp->next;
+        temp->next = newNode;
+
+        if(newNode->next == NULL){                  //if insert at tail, update the tail              
+            tail = newNode;                   
+        }
+
     }
 
     
@@ -114,11 +148,13 @@ int main(){
 
     ll.push_front(1);   
     ll.push_front(2);   
-    ll.push_front(3);  //3 - 2 - 1
-
-    ll.pop_back();
+    ll.push_front(3);  
     
-    ll.printAll();      //3 - 2 
+    ll.printAll();      //3 - 2 - 1
+
+    ll.insert(4, 1);    //0-based index
+
+    ll.printAll();      //3 - 4 - 2 - 1
 
 
 }

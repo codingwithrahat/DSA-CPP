@@ -63,6 +63,12 @@ public:
             return;
         }
 
+        if(head == tail){                     //handle if list size is 1
+            delete head;
+            head = tail = NULL;               //update the tail also
+            return;
+        }
+
         Node *temp = head;
         head = head->next;
         temp->next = NULL;
@@ -79,8 +85,8 @@ public:
 int main(){
     List ll;
 
-    ll.push_front(1);   
-    ll.push_front(2);   
+    // ll.push_front(1);   
+    // ll.push_front(2);   
     ll.push_front(3);  //3 - 2 - 1
 
     ll.pop_front();

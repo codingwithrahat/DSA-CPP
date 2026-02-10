@@ -22,7 +22,7 @@ public:
         head = tail = NULL;
     }
 
-    void push_front(int val){
+    void push_front(int val){   //O(1)
         Node* newNode = new Node(val);
 
         if(head == NULL){
@@ -33,7 +33,7 @@ public:
         }
     }
 
-    void push_back(int val){
+    void push_back(int val){    //O(1)
         Node* newNode = new Node(val);
         
         if(head == NULL){
@@ -44,7 +44,7 @@ public:
         }
     }
 
-    void printAll(){
+    void printAll(){    //O(n)
         Node* temp = head;                   
 
         while(temp != NULL){                                    
@@ -56,7 +56,7 @@ public:
         cout<<endl;
     }
 
-    void pop_front(){
+    void pop_front(){   //O(1)
 
         if(head == NULL){
             cout<<"List is Empty"<<endl;
@@ -77,14 +77,14 @@ public:
 
     }
 
-    void pop_back(){
+    void pop_back(){    //O(n)
 
         if(head == NULL){
             cout<<"List is Empty"<<endl;
             return;
         }
 
-        if(head == tail){                     //if there exit only one node
+        if(head == tail){                    
             delete head;
             head = tail = NULL;
             return;
@@ -99,12 +99,64 @@ public:
         }
 
         temp->next = NULL;
-        delete tail;               //it only delete the node that point by tail, it can't delete var tail
+        delete tail;               
         tail = temp;
         
     }
 
-    
+    void insert(int val, int pos){  //O(n)
+        if(pos < 0){
+            cout<<"Invalid Index"<<endl;
+            return;
+        }
+
+        if(pos == 0){
+            push_front(val);
+            return;
+        }
+
+        Node* temp = head;
+
+        for(int i = 0; i<pos - 1; i++){                  
+            
+            if(temp == NULL){
+                cout<<"Out of range"<<endl;
+                return;
+            }
+
+            temp = temp->next;
+        }
+
+        Node* newNode = new Node(val);
+
+        newNode->next = temp->next;
+        temp->next = newNode;
+
+        if(newNode->next == NULL){                           
+            tail = newNode;                   
+        }
+
+    }
+
+    int search(int key){    //O(n)
+        Node* temp = head;
+
+        int cnt = 0;
+
+        while(temp != NULL){
+            
+            if(temp->data == key){
+                return cnt;
+            }
+
+            temp = temp->next;
+            cnt++;
+            
+        }
+
+        return -1;                       
+    }
+
 
 };
 
@@ -114,11 +166,17 @@ int main(){
 
     ll.push_front(1);   
     ll.push_front(2);   
-    ll.push_front(3);  //3 - 2 - 1
-
-    ll.pop_back();
+    ll.push_front(3);  
     
-    ll.printAll();      //3 - 2 
+    ll.printAll();      //3 - 2 - 1
+
+    ll.insert(4, 1);    //0-based index
+
+    ll.printAll();      //3 - 4 - 2 - 1
+
+    int ans = ll.search(1);   //it will return the index of 1  
+
+    cout<<ans<<endl; //ans is 3
 
 
 }
